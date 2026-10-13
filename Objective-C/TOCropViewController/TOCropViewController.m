@@ -278,7 +278,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
 #if defined(__IPHONE_26_0)
     if (@available(iOS 26.0, *)) {
       if (!verticalLayout) {
-        UIViewLayoutRegion *layoutRegion = [UIViewLayoutRegion safeAreaLayoutRegionWithCornerAdaptation: UIViewLayoutRegionAdaptivityAxisVertical];
+        UIViewLayoutRegion *layoutRegion = [UIViewLayoutRegion safeAreaLayoutRegionWithCornerAdaptation:UIViewLayoutRegionAdaptivityAxisVertical];
         UIEdgeInsets edgeInsets = [self.view edgeInsetsForLayoutRegion:layoutRegion];
         insets.top = edgeInsets.top;
         insets.left = edgeInsets.left;
@@ -289,7 +289,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
 
     CGRect frame = CGRectZero;
     if (!verticalLayout) {  // In landscape laying out toolbar to the left
-        if (TOCropViewUsesGlassDesign()) {
+        if (@available(iOS 26.0, *)) {
 #if !TARGET_OS_VISION
             CGFloat minPadding = 8.0f;
 #else
@@ -306,7 +306,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
             frame.size.height = CGRectGetHeight(self.view.frame);
         }
     } else {
-        if (TOCropViewUsesGlassDesign()) {
+        if (@available(iOS 26.0, *)) {
             CGRect frameInWindow = [self.view convertRect:self.view.bounds toView:nil];
             BOOL isFullscreen = true;
             if (self.view.window) {
@@ -395,8 +395,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
         view = self.parentViewController.view;
     }
 
-    // Always make the crop view edge-to-edge with the iOS 26 design
-    if (TOCropViewUsesGlassDesign()) {
+    // Always make the crop view edge-to-edge on iOS 26 and up
+    if (@available(iOS 26.0, *)) {
         return view.bounds;
     }
 
@@ -450,7 +450,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
 - (void)adjustCropViewInsets {
     UIEdgeInsets insets = self.statusBarSafeInsets;
 
-    if (TOCropViewUsesGlassDesign()) {
+    if (@available(iOS 26.0, *)) {
         if (!self.verticalLayout) {
             insets.left = CGRectGetMaxX(self.toolbar.frame);
         } else {
